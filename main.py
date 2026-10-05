@@ -45,6 +45,10 @@ app.include_router(blockchain_router)
 
 @app.on_event("startup")
 def startup():
+    # Install FFmpeg binaries to PATH so videohash/cv2 works on Render
+    import static_ffmpeg
+    static_ffmpeg.add_paths()
+    
     init_db()
 
     # Initialise blockchain anchor service  
