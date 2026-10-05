@@ -13,7 +13,7 @@ pragma solidity ^0.8.20;
  *      3. Deploy — copy the contract address into .env
  */
 contract FadeAnchor {
-    // ── State ──────────────────────────────────────────────────────────────────
+    //   State  
 
     address public owner;
 
@@ -22,30 +22,30 @@ contract FadeAnchor {
 
     // Ordered list of all anchored roots (for enumeration)
     string[] public roots;
-
-    // ── Events ─────────────────────────────────────────────────────────────────
+ 
+    //   Events  
 
     /**
-     * @param root      Merkle root hex string (64 chars)
+     * @param root Merkle root hex string (64 chars)
      * @param anchoredAt Block timestamp
      * @param batchSize  Number of artifacts in this batch
      */
     event RootAnchored(string root, uint256 anchoredAt, uint256 batchSize);
 
-    // ── Modifiers ──────────────────────────────────────────────────────────────
+    // Modifiers  
 
     modifier onlyOwner() {
         require(msg.sender == owner, "FadeAnchor: caller is not owner");
         _;
     }
 
-    // ── Constructor ────────────────────────────────────────────────────────────
+    // Constructor  
 
     constructor() {
         owner = msg.sender;
     }
 
-    // ── Functions ──────────────────────────────────────────────────────────────
+    //   Functions  
 
     /**
      * @notice Anchor a Merkle root representing a batch of artifact hashes.

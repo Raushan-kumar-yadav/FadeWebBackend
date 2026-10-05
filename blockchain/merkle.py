@@ -41,7 +41,7 @@ def build_merkle_tree(leaves: List[str]) -> Dict[str, Any]:
             "proofs": {leaves[0]: []},
         }
 
-    # Build layers — each stored layer is ALREADY padded 
+    # Build layers  
     padded_layers: List[List[str]] = []
     current = leaves[:]
 

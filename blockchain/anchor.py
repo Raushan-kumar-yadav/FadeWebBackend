@@ -11,19 +11,12 @@ logger = logging.getLogger(__name__)
 # Path to the ABI file sitting next to this module
 _ABI_PATH = Path(__file__).parent / "abi.json"
 
-# Default public RPC for Polygon Amoy Testnet ( 
+# Default public RPC for Polygon Amoy Testnet  
 _DEFAULT_RPC = "https://rpc-amoy.polygon.technology"
 
 
 class AnchorService:
-    """
-    Thin wrapper around web3.py for anchoring Merkle roots to the FadeAnchor
-    Smart Contract on Polygon Amoy Testnet.
-
-    Attributes:
-        enabled (bool): False when BLOCKCHAIN_ENABLED != "true" or env vars missing.
-    """
-
+     
     def __init__(self):
         self.enabled = os.environ.get("BLOCKCHAIN_ENABLED", "false").lower() == "true"
         self._w3 = None
@@ -67,7 +60,7 @@ class AnchorService:
         # Connect
         self._w3 = Web3(Web3.HTTPProvider(rpc_url))
 
-        # Polygon (and most PoS networks) use POA consensus 
+        # Polygon  
          
         self._w3.middleware_onion.inject(ExtraDataToPOAMiddleware, layer=0)
 
@@ -96,16 +89,7 @@ class AnchorService:
     # Public API  
 
     def anchor_root(self, merkle_root: str, batch_size: int) -> Optional[str]:
-        """
-        Call FadeAnchor.storeRoot(merkle_root, batch_size) on-chain.
-
-        Args:
-            merkle_root: 64-char hex Merkle root
-            batch_size:  Number of artifacts in this batch
-
-        Returns:
-            Transaction hash string ("0x...") on success, None on failure.
-        """
+         
         if not self.enabled:
             logger.debug("[Blockchain] Anchoring skipped (disabled)")
             return None

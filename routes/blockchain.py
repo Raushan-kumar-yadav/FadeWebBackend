@@ -1,8 +1,4 @@
-"""
-routes/blockchain.py
-~~~~~~~~~~~~~~~~~~~~~
-Endpoints for blockchain anchor status and on-chain proof verification.
-"""
+ 
 
 import os
 import time
@@ -12,7 +8,7 @@ from typing import Optional
 
 router = APIRouter(prefix="/blockchain", tags=["blockchain"])
 
-# These are set by main.py after creating the AnchorService
+ 
 _anchor_svc = None
 
 
@@ -22,14 +18,14 @@ def set_anchor_service(svc):
     _anchor_svc = svc
 
 
-# ── Models ────────────────────────────────────────────────────────────────────
+# Models  
 
 class ProofVerifyRequest(BaseModel):
     artifact_id: str
     sha256: str
 
 
-# ── Routes ────────────────────────────────────────────────────────────────────
+#   Routes  
 
 @router.get("/status", summary="Blockchain anchor status")
 def blockchain_status():
@@ -145,11 +141,21 @@ def verify_merkle_proof(artifact_id: str):
 
 
 @router.post("/trigger-anchor", summary="Manually trigger an anchor cycle (admin)")
-def manual_anchor():
+def manual_anchor(x_api_key: str = Header(..., alias="X-API-Key")):
     """
     Immediately runs an anchor cycle without waiting for the next scheduled interval.
-    Useful for testing during development.
+    Requires a valid API key — admin only.
     """
+    from database import get_db as _get_db
+    from fastapi import HTTPException as _HTTPException
+    db = _get_db()
+    row = db.execute(
+        "SELECT owner FROM api_keys WHERE key=? AND active=1", (x_api_key,)
+    ).fetchone()
+    db.close()
+    if not row:
+        raise HTTPException(401, "Invalid or inactive API key")
+
     from blockchain.scheduler import _anchor_job
     try:
         _anchor_job()

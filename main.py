@@ -3,11 +3,11 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import init_db
-from routes.register   import router as register_router
-from routes.verify     import router as verify_router
+from routes.register import router as register_router
+from routes.verify import router as verify_router
 from routes.blockchain import router as blockchain_router
 from routes.blockchain import set_anchor_service
-from blockchain.anchor    import AnchorService
+from blockchain.anchor import AnchorService
 from blockchain.scheduler import start_scheduler, stop_scheduler
 
 logging.basicConfig(
@@ -47,7 +47,7 @@ app.include_router(blockchain_router)
 def startup():
     init_db()
 
-    # Initialise blockchain anchor service (safe no-op if BLOCKCHAIN_ENABLED != "true")
+    # Initialise blockchain anchor service  
     anchor_svc = AnchorService()
     set_anchor_service(anchor_svc)
     start_scheduler(anchor_svc)

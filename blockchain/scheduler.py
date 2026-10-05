@@ -21,10 +21,7 @@ _anchor_svc: Optional[AnchorService] = None
 #   Core job  
 
 def _anchor_job():
-    """
-    The periodic job function.
-    Queries un-anchored artifacts, builds Merkle tree, anchors on-chain.
-    """
+     
     global _anchor_svc
 
     if _anchor_svc is None:
@@ -62,7 +59,7 @@ def _anchor_job():
             logger.warning("[Scheduler] Anchoring failed. Will retry next cycle.")
             return
 
-        # If blockchain is disabled, tx_hash is None but we still record
+ 
  
         now = int(time.time())
 
@@ -108,13 +105,7 @@ def _anchor_job():
 # Public API  
 
 def start_scheduler(anchor_service: AnchorService):
-    """
-    Start the APScheduler background job.
-    Call this once from FastAPI startup event.
-
-    Args:
-        anchor_service: Initialised AnchorService instance.
-    """
+     
     global _scheduler, _anchor_svc
 
     _anchor_svc = anchor_service
