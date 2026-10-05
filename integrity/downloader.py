@@ -17,7 +17,7 @@ PDF_EXTS    = {".pdf"}
 
 SOCIAL_DOMAINS = {
     "youtube.com", "youtu.be", "instagram.com", "twitter.com", "x.com", 
-    "tiktok.com", "facebook.com", "vimeo.com", "twitch.tv", "reddit.com"
+    "tiktok.com", "facebook.com", "vimeo.com", "twitch.tv", "reddit.com", "drive.google.com"
 }
 
 def _is_social_media(url: str) -> bool:
