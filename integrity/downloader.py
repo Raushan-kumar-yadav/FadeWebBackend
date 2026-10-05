@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 import httpx
 
 CHUNK = 1024 * 1024  # 1 MB
-MAX_BYTES = 500 * 1024 * 1024  # 500 MB safety cap
+MAX_BYTES = 30 * 1024 * 1024  # 30 MB safety cap for Render free tier OOM
 
 VIDEO_EXTS  = {".mp4", ".mkv", ".webm", ".mov", ".avi", ".flv", ".ts"}
 IMAGE_EXTS  = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".tiff", ".tif"}
