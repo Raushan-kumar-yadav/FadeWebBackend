@@ -45,10 +45,14 @@ app.include_router(blockchain_router)
 
 @app.on_event("startup")
 def startup():
-    # Install FFmpeg binaries to PATH so videohash/cv2 works on Render
-    import static_ffmpeg
-    static_ffmpeg.add_paths()
-    
+    # Add bundled FFmpeg to PATH so videohash/cv2 works on Render
+    try:
+        import imageio_ffmpeg
+        import os
+        os.environ["PATH"] += os.pathsep + os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
+    except Exception as e:
+        print("Failed to add imageio_ffmpeg to PATH:", e)
+        
     init_db()
 
     # Initialise blockchain anchor service  
